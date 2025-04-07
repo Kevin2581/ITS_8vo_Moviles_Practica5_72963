@@ -31,7 +31,7 @@ const App = () => {
         name="index"
         options={
           {
-            title: 'Mis Notas',
+            title: '',
           }
         }
       />
@@ -39,7 +39,7 @@ const App = () => {
         name='create-note'
         options={
           {
-            title: 'Crear nueva nota'
+            title: 'Agregar Nota'
           }
         }
       />
