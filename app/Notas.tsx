@@ -10,7 +10,7 @@ import {
   View,
   Dimensions,
 } from 'react-native';
-import { Card, IconButton, Text } from 'react-native-paper';
+import { Card, Text } from 'react-native-paper';
 import Svg, { Circle, Polygon } from 'react-native-svg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useNotes from '../hooks/useNotes';
@@ -119,18 +119,18 @@ export default function NotesListScreen() {
                 </Text>
               </Card.Content>
               <Card.Actions style={styles.cardActions}>
-                <IconButton
-                  icon="pencil"
-                  size={24}
+                <TouchableOpacity
+                  style={styles.iconButton}
                   onPress={() => handleEditNote(note.id)}
-                  style={styles.actionButton}
-                />
-                <IconButton
-                  icon="delete"
-                  size={24}
+                >
+                  <MaterialIcons name="edit" size={20} color="white" />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.iconButton}
                   onPress={() => handleDeleteNote(note.id)}
-                  style={styles.actionButton}
-                />
+                >
+                  <MaterialIcons name="delete" size={20} color="white" />
+                </TouchableOpacity>
               </Card.Actions>
             </Card>
           ))
@@ -217,10 +217,16 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   cardActions: {
+    flexDirection: 'row',
     justifyContent: 'flex-end',
+    paddingHorizontal: 10,
+    paddingBottom: 10,
   },
-  actionButton: {
-    margin: 0,
+  iconButton: {
+    backgroundColor: '#FFA500',
+    borderRadius: 20,
+    padding: 8,
+    marginLeft: 8,
   },
   emptyText: {
     textAlign: 'center',

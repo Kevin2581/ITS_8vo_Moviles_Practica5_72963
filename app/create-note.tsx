@@ -49,17 +49,19 @@ export default function CreateNoteScreen() {
       return;
     }
 
+    const cleanedContent = content.replace(/&nbsp;/g, ' ');
+
     try {
       if (id) {
         await updateNote(Number(id), {
           titulo: title,
-          descripcion: content,
+          descripcion: cleanedContent,
           completada: completed,
         });
       } else {
         await saveNote({
           titulo: title.trim(),
-          descripcion: content,
+          descripcion: cleanedContent,
           completada: completed,
         });
       }
@@ -73,7 +75,12 @@ export default function CreateNoteScreen() {
   return (
     <View style={styles.container}>
       <BackgroundDesign />
-      <ScrollView style={styles.container} nestedScrollEnabled={false}>
+      <ScrollView
+        style={styles.container}
+        keyboardShouldPersistTaps="handled"
+        nestedScrollEnabled
+        contentContainerStyle={{ paddingBottom: 100 }}
+      >
         <TextInput
           style={styles.titleInput}
           placeholder="Título de la nota"
@@ -86,7 +93,7 @@ export default function CreateNoteScreen() {
           ref={richText}
           style={styles.editor}
           initialContentHTML={content}
-          onChange={setContent}
+          onChange={(html) => setContent(html.replace(/&nbsp;/g, ' '))}
           placeholder="Escribe el contenido de tu nota aquí..."
           useContainer={true}
         />
@@ -170,7 +177,8 @@ const styles = StyleSheet.create({
   },
   editor: {
     flex: 1,
-    minHeight: 300,
+    minHeight: 180, // reducido para que no se tape con el teclado
+    maxHeight: 300,
     borderWidth: 1,
     borderColor: '#333',
     borderRadius: 5,
