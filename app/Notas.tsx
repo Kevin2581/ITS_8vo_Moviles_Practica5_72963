@@ -153,7 +153,6 @@ export default function NotesListScreen() {
 
 const BackgroundDesign = () => {
   const elements = [];
-
   for (let i = 0; i < 100; i++) {
     const x = Math.random() * width;
     const y = Math.random() * height;
@@ -220,7 +219,9 @@ const styles = StyleSheet.create({
   },
   card: {
     marginBottom: 16,
-    backgroundColor: '#111',
+    backgroundColor: '#1F2D3D', // azul vibrante
+    borderColor: '#FFA500',     // borde naranja
+    borderWidth: 2,
     borderRadius: 12,
     overflow: 'hidden',
   },
@@ -241,13 +242,13 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   editButton: {
-    backgroundColor: '#3A7BD5', // azul vibrante
+    backgroundColor: '#3A7BD5',
     borderRadius: 20,
     padding: 8,
     marginLeft: 8,
   },
   deleteButton: {
-    backgroundColor: '#D9534F', // rojo suave
+    backgroundColor: '#D9534F',
     borderRadius: 20,
     padding: 8,
     marginLeft: 8,

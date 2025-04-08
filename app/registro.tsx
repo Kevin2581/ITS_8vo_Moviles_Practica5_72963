@@ -96,7 +96,7 @@ const RegisterScreen: React.FC = () => {
           )}
 
           <TouchableOpacity onPress={() => router.push('./login')}>
-            <Text style={styles.loginText}>¿Ya tienes cuenta? Iniciar sesión</Text>
+            <Text style={styles.loginText}>¿tienes cuenta? Inicia sesión</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -194,6 +194,13 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     alignItems: 'center',
     zIndex: 1,
+    borderWidth: 2,
+    borderColor: '#FFA500',
+    shadowColor: '#FFA500',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.6,
+    shadowRadius: 10,
+    elevation: 10,
   },
   title: {
     fontSize: 28,

@@ -75,7 +75,7 @@ const Login: React.FC = () => {
             <MaterialIcons
               name={showPassword ? 'visibility' : 'visibility-off'}
               size={24}
-              color="#FFA500"
+              color="#4DB8FF"
             />
           </TouchableOpacity>
         </View>
@@ -93,14 +93,13 @@ const Login: React.FC = () => {
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => router.push('./registro')}>
-          <Text style={styles.registerText}>¿No tienes cuenta? Regístrate</Text>
+          <Text style={styles.registerText}>¿No tengo cuenta? Regístrarme</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 };
 
-// Fondo futurista
 const BackgroundDesign = () => {
   const elements = [];
   for (let i = 0; i < 100; i++) {
@@ -137,16 +136,23 @@ const styles = StyleSheet.create({
   card: {
     width: '100%',
     maxWidth: 400,
-    backgroundColor: '#111',
+    backgroundColor: '#1F2D3D',
     padding: 32,
     borderRadius: 12,
     alignItems: 'center',
     zIndex: 1,
+    borderWidth: 2,
+    borderColor: '#4DB8FF',
+    shadowColor: '#4DB8FF',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.6,
+    shadowRadius: 10,
+    elevation: 10,
   },
   title: {
     fontSize: 28,
     fontWeight: '600',
-    color: '#FFA500',
+    color: '#4DB8FF',
     marginBottom: 24,
   },
   input: {
@@ -156,10 +162,10 @@ const styles = StyleSheet.create({
     marginTop: 16,
     borderRadius: 10,
     backgroundColor: '#000',
-    color: '#FFA500',
+    color: '#4DB8FF',
     fontSize: 16,
     borderWidth: 1,
-    borderColor: '#FFA500',
+    borderColor: '#4DB8FF',
   },
   passwordWrapper: {
     width: '100%',
@@ -167,7 +173,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#FFA500',
+    borderColor: '#4DB8FF',
     borderRadius: 10,
     backgroundColor: '#000',
     paddingHorizontal: 4,
@@ -179,7 +185,7 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingVertical: 16,
     borderRadius: 10,
-    backgroundColor: '#FFA500',
+    backgroundColor: '#4DB8FF',
     marginTop: 32,
     alignItems: 'center',
   },
@@ -190,7 +196,7 @@ const styles = StyleSheet.create({
   },
   registerText: {
     marginTop: 20,
-    color: '#FFA500',
+    color: '#4DB8FF',
     fontSize: 16,
     textDecorationLine: 'underline',
   },

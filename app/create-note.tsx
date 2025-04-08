@@ -1,3 +1,4 @@
+// CreateNoteScreen.tsx
 import CustomRichEditor from '@/components/CustomRichEditor';
 import useNotes from '@/hooks/useNotes';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -18,6 +19,29 @@ import { RichEditor, RichToolbar, actions } from 'react-native-pell-rich-editor'
 import Svg, { Circle, Polygon } from 'react-native-svg';
 
 const { width, height } = Dimensions.get('window');
+
+// 🔒 Fondo generado una sola vez y reutilizado
+const staticElements = Array.from({ length: 100 }, (_, i) => {
+  const x = Math.random() * width;
+  const y = Math.random() * height;
+  const isCircle = i % 2 === 0;
+
+  return (
+    <Svg
+      key={i}
+      height={8}
+      width={8}
+      style={{ position: 'absolute', left: x, top: y }}
+      pointerEvents="none"
+    >
+      {isCircle ? (
+        <Circle cx={4} cy={4} r={2} fill="#1f1f1f" />
+      ) : (
+        <Polygon points="4,0 8,8 0,8" fill="#2a2a2a" />
+      )}
+    </Svg>
+  );
+});
 
 export default function CreateNoteScreen() {
   const router = useRouter();
@@ -102,7 +126,8 @@ export default function CreateNoteScreen() {
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       keyboardVerticalOffset={80}
     >
-      <BackgroundDesign />
+      {/* Fondo estático */}
+      <>{staticElements}</>
 
       <View style={styles.actionsRow}>
         <TouchableOpacity style={styles.fab} onPress={handleSave}>
@@ -158,32 +183,6 @@ export default function CreateNoteScreen() {
     </KeyboardAvoidingView>
   );
 }
-
-const BackgroundDesign = () => {
-  const elements = [];
-  for (let i = 0; i < 100; i++) {
-    const x = Math.random() * width;
-    const y = Math.random() * height;
-    const isCircle = i % 2 === 0;
-
-    elements.push(
-      <Svg
-        key={i}
-        height={8}
-        width={8}
-        style={{ position: 'absolute', left: x, top: y }}
-        pointerEvents="none"
-      >
-        {isCircle ? (
-          <Circle cx={4} cy={4} r={2} fill="#1f1f1f" />
-        ) : (
-          <Polygon points="4,0 8,8 0,8" fill="#2a2a2a" />
-        )}
-      </Svg>
-    );
-  }
-  return <>{elements}</>;
-};
 
 const styles = StyleSheet.create({
   container: {
