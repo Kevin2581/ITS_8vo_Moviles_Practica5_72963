@@ -13,6 +13,7 @@ import {
 import { useRouter } from 'expo-router';
 import Svg, { Circle, Polygon } from 'react-native-svg';
 import { api } from '../services/api';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const { width, height } = Dimensions.get('window');
 
@@ -21,6 +22,7 @@ const RegisterScreen: React.FC = () => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const isValidEmail = (email: string) => {
     const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -79,7 +81,10 @@ const RegisterScreen: React.FC = () => {
             value={password}
             onChangeText={setPassword}
             placeholder="Contraseña"
-            secureTextEntry
+            secureTextEntry={!showPassword}
+            isPassword
+            toggleSecure={() => setShowPassword(prev => !prev)}
+            isVisible={showPassword}
           />
 
           {isLoading ? (
@@ -99,25 +104,18 @@ const RegisterScreen: React.FC = () => {
   );
 };
 
-// 🎨 Fondo con figuras pequeñas (sin animación)
 const BackgroundDesign = () => {
   const elements = [];
-
   for (let i = 0; i < 100; i++) {
     const x = Math.random() * width;
     const y = Math.random() * height;
     const isCircle = i % 2 === 0;
-
     elements.push(
       <Svg
         key={i}
         height={8}
         width={8}
-        style={{
-          position: 'absolute',
-          left: x,
-          top: y,
-        }}
+        style={{ position: 'absolute', left: x, top: y }}
         pointerEvents="none"
       >
         {isCircle ? (
@@ -128,7 +126,6 @@ const BackgroundDesign = () => {
       </Svg>
     );
   }
-
   return <>{elements}</>;
 };
 
@@ -138,6 +135,9 @@ interface RoundedTextFieldProps {
   placeholder: string;
   secureTextEntry?: boolean;
   keyboardType?: any;
+  isPassword?: boolean;
+  toggleSecure?: () => void;
+  isVisible?: boolean;
 }
 
 const RoundedTextField: React.FC<RoundedTextFieldProps> = ({
@@ -146,17 +146,31 @@ const RoundedTextField: React.FC<RoundedTextFieldProps> = ({
   placeholder,
   secureTextEntry = false,
   keyboardType = 'default',
+  isPassword = false,
+  toggleSecure,
+  isVisible,
 }) => (
   <View style={styles.textFieldContainer}>
-    <TextInput
-      value={value}
-      onChangeText={onChangeText}
-      placeholder={placeholder}
-      placeholderTextColor="#888"
-      secureTextEntry={secureTextEntry}
-      keyboardType={keyboardType}
-      style={styles.textField}
-    />
+    <View style={styles.textFieldWrapper}>
+      <TextInput
+        value={value}
+        onChangeText={onChangeText}
+        placeholder={placeholder}
+        placeholderTextColor="#888"
+        secureTextEntry={secureTextEntry}
+        keyboardType={keyboardType}
+        style={styles.textField}
+      />
+      {isPassword && toggleSecure && (
+        <TouchableOpacity onPress={toggleSecure} style={styles.eyeIcon}>
+          <MaterialIcons
+            name={isVisible ? 'visibility' : 'visibility-off'}
+            size={24}
+            color="#FFA500"
+          />
+        </TouchableOpacity>
+      )}
+    </View>
   </View>
 );
 
@@ -194,16 +208,25 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     zIndex: 1,
   },
+  textFieldWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#111',
+    borderColor: '#FFA500',
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingRight: 10,
+  },
   textField: {
-    width: '100%',
+    flex: 1,
     paddingVertical: 16,
     paddingHorizontal: 20,
-    borderRadius: 10,
-    backgroundColor: '#111',
-    color: '#FFA500',
     fontSize: 16,
-    borderWidth: 1,
-    borderColor: '#FFA500',
+    color: '#FFA500',
+  },
+  eyeIcon: {
+    paddingLeft: 10,
+    paddingVertical: 8,
   },
   button: {
     width: '100%',

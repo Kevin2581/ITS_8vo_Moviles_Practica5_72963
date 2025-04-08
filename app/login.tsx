@@ -12,6 +12,7 @@ import {
 import { useRouter } from 'expo-router';
 import Svg, { Circle, Polygon } from 'react-native-svg';
 import { api } from '../services/api';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const { width, height } = Dimensions.get('window');
 
@@ -20,6 +21,7 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -57,14 +59,26 @@ const Login: React.FC = () => {
           onChangeText={setEmail}
         />
 
-        <TextInput
-          style={styles.input}
-          placeholder="Contraseña"
-          placeholderTextColor="#888"
-          secureTextEntry
-          value={password}
-          onChangeText={setPassword}
-        />
+        <View style={styles.passwordWrapper}>
+          <TextInput
+            style={[styles.input, { flex: 1, marginTop: 0, borderWidth: 0 }]}
+            placeholder="Contraseña"
+            placeholderTextColor="#888"
+            secureTextEntry={!showPassword}
+            value={password}
+            onChangeText={setPassword}
+          />
+          <TouchableOpacity
+            style={styles.eyeButton}
+            onPress={() => setShowPassword(!showPassword)}
+          >
+            <MaterialIcons
+              name={showPassword ? 'visibility' : 'visibility-off'}
+              size={24}
+              color="#FFA500"
+            />
+          </TouchableOpacity>
+        </View>
 
         <TouchableOpacity
           style={styles.button}
@@ -86,25 +100,19 @@ const Login: React.FC = () => {
   );
 };
 
-// Fondo futurista (figuras pequeñas en toda la pantalla)
+// Fondo futurista
 const BackgroundDesign = () => {
   const elements = [];
-
   for (let i = 0; i < 100; i++) {
     const x = Math.random() * width;
     const y = Math.random() * height;
     const isCircle = i % 2 === 0;
-
     elements.push(
       <Svg
         key={i}
         height={8}
         width={8}
-        style={{
-          position: 'absolute',
-          left: x,
-          top: y,
-        }}
+        style={{ position: 'absolute', left: x, top: y }}
         pointerEvents="none"
       >
         {isCircle ? (
@@ -115,7 +123,6 @@ const BackgroundDesign = () => {
       </Svg>
     );
   }
-
   return <>{elements}</>;
 };
 
@@ -153,6 +160,20 @@ const styles = StyleSheet.create({
     fontSize: 16,
     borderWidth: 1,
     borderColor: '#FFA500',
+  },
+  passwordWrapper: {
+    width: '100%',
+    marginTop: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#FFA500',
+    borderRadius: 10,
+    backgroundColor: '#000',
+    paddingHorizontal: 4,
+  },
+  eyeButton: {
+    paddingHorizontal: 10,
   },
   button: {
     width: '100%',
