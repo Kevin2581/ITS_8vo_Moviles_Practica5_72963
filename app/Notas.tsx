@@ -9,8 +9,9 @@ import {
   TouchableOpacity,
   View,
   Dimensions,
+  Text,
 } from 'react-native';
-import { Card, Text } from 'react-native-paper';
+import { Card } from 'react-native-paper';
 import Svg, { Circle, Polygon } from 'react-native-svg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useNotes from '../hooks/useNotes';
@@ -94,10 +95,13 @@ export default function NotesListScreen() {
     <View style={styles.container}>
       <BackgroundDesign />
 
-      {/* Botón Cerrar Sesión */}
-      <TouchableOpacity style={styles.logoutButton} onPress={confirmLogout}>
-        <MaterialIcons name="logout" size={24} color="white" />
-      </TouchableOpacity>
+      {/* Encabezado */}
+      <View style={styles.headerRow}>
+        <Text style={styles.headerTitle}>Mis notas</Text>
+        <TouchableOpacity style={styles.logoutButton} onPress={confirmLogout}>
+          <MaterialIcons name="logout" size={20} color="white" />
+        </TouchableOpacity>
+      </View>
 
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         {notes.length === 0 ? (
@@ -120,13 +124,13 @@ export default function NotesListScreen() {
               </Card.Content>
               <Card.Actions style={styles.cardActions}>
                 <TouchableOpacity
-                  style={styles.iconButton}
+                  style={styles.editButton}
                   onPress={() => handleEditNote(note.id)}
                 >
                   <MaterialIcons name="edit" size={20} color="white" />
                 </TouchableOpacity>
                 <TouchableOpacity
-                  style={styles.iconButton}
+                  style={styles.deleteButton}
                   onPress={() => handleDeleteNote(note.id)}
                 >
                   <MaterialIcons name="delete" size={20} color="white" />
@@ -137,7 +141,6 @@ export default function NotesListScreen() {
         )}
       </ScrollView>
 
-      {/* Botón Flotante Agregar Nota */}
       <TouchableOpacity
         style={styles.fab}
         onPress={() => router.push('/create-note')}
@@ -148,7 +151,6 @@ export default function NotesListScreen() {
   );
 }
 
-// 🎨 Fondo con figuras geométricas pequeñas (sin animación)
 const BackgroundDesign = () => {
   const elements = [];
 
@@ -162,11 +164,7 @@ const BackgroundDesign = () => {
         key={i}
         height={8}
         width={8}
-        style={{
-          position: 'absolute',
-          left: x,
-          top: y,
-        }}
+        style={{ position: 'absolute', left: x, top: y }}
         pointerEvents="none"
       >
         {isCircle ? (
@@ -194,8 +192,28 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    padding: 16,
+    paddingTop: 10,
+    paddingHorizontal: 16,
     backgroundColor: '#000',
+  },
+  headerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  headerTitle: {
+    color: '#FFA500',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  logoutButton: {
+    backgroundColor: '#FFA500',
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   scrollContainer: {
     paddingBottom: 80,
@@ -222,8 +240,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingBottom: 10,
   },
-  iconButton: {
-    backgroundColor: '#FFA500',
+  editButton: {
+    backgroundColor: '#3A7BD5', // azul vibrante
+    borderRadius: 20,
+    padding: 8,
+    marginLeft: 8,
+  },
+  deleteButton: {
+    backgroundColor: '#D9534F', // rojo suave
     borderRadius: 20,
     padding: 8,
     marginLeft: 8,
@@ -244,19 +268,6 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     alignItems: 'center',
     justifyContent: 'center',
-    elevation: 4,
-  },
-  logoutButton: {
-    position: 'absolute',
-    top: 20,
-    right: 20,
-    backgroundColor: '#FFA500',
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 1,
     elevation: 4,
   },
 });
